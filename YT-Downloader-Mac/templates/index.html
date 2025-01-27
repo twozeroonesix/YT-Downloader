@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Downloader</title>
+    <style>
+        /* Reset Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: verdana, Bold;
+            background: linear-gradient(30deg, #532492, #782381);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Canvas for background effects */
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            background: rgba(26, 26, 26, 0.5);
+            border-radius: 8px;
+            padding: 40px;
+            width: 100%;
+            max-width: 350px;
+        }
+
+        h1 {
+            color: #f1f1f1;
+            text-shadow: 0 0 10px #f1f1f1;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            color: #f1f1f1;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            background: rgba(31, 31, 31, 0.55);
+            color: #fff;
+            backdrop-filter: blur(6px);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 6px;
+            background-color: rgba(26, 26, 26, 0.45);
+			backdrop-filter: blur(6px);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        #loading-message {
+            color: #fff;
+            text-align: center;
+            font-size: 1.2rem;
+            display: none;
+        }
+
+        #download-result {
+            display: none;
+        }
+
+        #download-link {
+            color: #2575fc;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        #download-link:hover {
+            color: #6a11cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>YouTube Downloader</h1>
+        <form id="download-form" action="/download" method="POST">
+            <div class="form-group">
+                <label for="url">YouTube URL:</label>
+                <input type="text" id="url" name="url" placeholder="Enter YouTube video URL" required>
+            </div>
+            <div class="form-group">
+                <label for="video_quality">Video Quality:</label>
+                <select id="video_quality" name="video_quality">
+                    <option value="best">Best</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="audio_quality">Audio Quality:</label>
+                <select id="audio_quality" name="audio_quality">
+                    <option value="best">Best</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="resolution">Resolution:</label>
+                <select id="resolution" name="resolution">
+                    <option value="2160">2160p (4K)</option>
+                    <option value="1440">1440p</option>
+                    <option value="1080">1080p</option>
+                    <option value="720">720p</option>
+                    <option value="480">480p</option>
+                    <option value="360">360p</option>
+                    <option value="240">240p</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="format">Format:</label>
+                <select id="format" name="format">
+                    <option value="mp4">MP4</option>
+                    <option value="webm">WebM</option>
+                    <option value="mkv">MKV</option>
+					<option value="avi">AVI</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="codec">Codec:</label>
+                <select id="codec" name="codec">
+                    <option value="h264">H.264</option>
+                    <option value="vp9">VP9</option>
+                    <option value="av1">AV1</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="subtitles">Download Subtitles:</label>
+                <select id="subtitles" name="subtitles">
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                </select>
+            </div>
+            <button type="submit">Download</button>
+        </form>
+
+        <div id="loading-message">Downloading... Please wait.</div>
+
+        <div id="download-result">
+            <h3>Download Complete!</h3>
+            <p id="video-description"></p>
+            <a id="download-link" href="" target="_blank">Download Video</a>
+        </div>
+    </div>
+</body>
+</html>
